@@ -7,7 +7,7 @@ import {
   Shield, 
   Twitter, 
   Github, 
-  Discord, 
+  MessageCircle,
   Linkedin,
   Mail,
   Globe,
@@ -51,7 +51,7 @@ const footerLinks = {
 const socialLinks = [
   { icon: Twitter, href: "#", label: "Twitter" },
   { icon: Github, href: "#", label: "GitHub" },
-  { icon: Discord, href: "#", label: "Discord" },
+  { icon: MessageCircle, href: "#", label: "Community" },
   { icon: Linkedin, href: "#", label: "LinkedIn" }
 ]
 
@@ -74,11 +74,10 @@ export default function Footer() {
 
   return (
     <footer className="bg-slate-900 text-slate-100 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.05"%3E%3Ccircle cx="7" cy="7" r="1"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]" />
-      
-      {/* Gradient Overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-blue-900/20 to-purple-900/20" />
+  {/* Background Pattern (simplified for parser stability) */}
+  <div className="absolute inset-0 opacity-10 bg-gradient-to-br from-slate-900 via-slate-800 to-transparent" />
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 bg-gradient-to-br from-slate-900/80 via-blue-900/20 to-purple-900/20" />
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Newsletter Section */}

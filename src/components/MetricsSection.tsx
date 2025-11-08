@@ -183,8 +183,8 @@ export default function MetricsSection() {
 
   return (
     <section className="py-24 bg-white dark:bg-slate-900 relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%239C92AC" fill-opacity="0.03"%3E%3Cpath d="M0 40L40 0H20L0 20M40 40V20L20 40"/%3E%3C/g%3E%3C/svg%3E')]" />
+  {/* Background Pattern (simplified for parser stability) */}
+  <div className="absolute inset-0 opacity-10 bg-gradient-to-b from-white to-transparent dark:from-slate-900" />
       
       {/* Floating Elements */}
       <div className="absolute top-10 left-10 w-20 h-20 bg-blue-400/10 rounded-full animate-pulse" />
