@@ -1,6 +1,7 @@
-'use client'
+ 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -108,6 +109,17 @@ const featuredProjects = [
 export default function ImpactSection() {
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
+  const router = useRouter()
+
+  const navigate = (path: string) => {
+    try {
+      if (path.startsWith('/')) router.push(path)
+      else router.push(path.startsWith('#') ? path : `#${path}`)
+    } catch (e) {
+      if (path.startsWith('/')) window.location.href = path
+      else window.location.hash = path.startsWith('#') ? path.substring(1) : path
+    }
+  }
 
   useEffect(() => {
     setIsVisible(true)
@@ -362,11 +374,11 @@ export default function ImpactSection() {
               while earning competitive yields.
             </p>
             <div className="flex items-center gap-4">
-              <Button className="gap-2 bg-blue-600 hover:bg-blue-700">
+                    <Button type="button" onClick={() => navigate('#dashboard')} className="gap-2 bg-blue-600 hover:bg-blue-700">
                 Start Earning & Giving
                 <ArrowRight className="w-4 h-4" />
               </Button>
-              <Button variant="outline">
+              <Button type="button" variant="outline" onClick={() => navigate('/reports')}>
                 View Impact Report
               </Button>
             </div>

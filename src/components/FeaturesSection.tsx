@@ -1,6 +1,7 @@
-'use client'
+ 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -80,6 +81,15 @@ const features = [
 
 export default function FeaturesSection() {
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null)
+  const router = useRouter()
+
+  const navigate = (hash: string) => {
+    try {
+      router.push(hash.startsWith('#') ? hash : `#${hash}`)
+    } catch (e) {
+      window.location.hash = hash.startsWith('#') ? hash.substring(1) : hash
+    }
+  }
 
   const getColorClasses = (color: string) => {
     const colors = {
@@ -207,7 +217,9 @@ export default function FeaturesSection() {
 
                   {/* Learn More Button */}
                   <Button 
+                    type="button"
                     variant="ghost" 
+                    onClick={() => navigate('#dashboard')}
                     className="w-full group justify-between p-0 h-auto hover:bg-transparent"
                   >
                     <span className="text-sm font-medium">Learn More</span>

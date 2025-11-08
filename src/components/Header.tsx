@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
+import WalletConnect from '@/components/WalletConnect'
 import { Badge } from '@/components/ui/badge'
 import { 
   Menu, 
@@ -20,6 +22,7 @@ import {
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,6 +40,14 @@ export default function Header() {
     { label: 'Dashboard', href: '#dashboard' },
     { label: 'Docs', href: '#docs' }
   ]
+
+  const navigate = (hash: string) => {
+    try {
+      router.push(hash.startsWith('#') ? hash : `#${hash}`)
+    } catch (e) {
+      window.location.hash = hash.startsWith('#') ? hash.substring(1) : hash
+    }
+  }
 
   return (
     <header 
@@ -70,7 +81,11 @@ export default function Header() {
               <a
                 key={item.label}
                 href={item.href}
-                className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium"
+                onClick={(e) => {
+                  e.preventDefault()
+                  navigate(item.href)
+                }}
+                className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium cursor-pointer"
               >
                 {item.label}
               </a>
@@ -78,15 +93,16 @@ export default function Header() {
           </nav>
 
           {/* CTA Buttons */}
-          <div className="hidden lg:flex items-center gap-4">
-            <Button variant="outline" size="sm" className="gap-2">
+          <div className="hidden lg:flex items-center gap-4 items-center">
+            <Button type="button" variant="outline" size="sm" onClick={() => navigate('#docs')} className="gap-2">
               <BookOpen className="w-4 h-4" />
               Docs
             </Button>
-            <Button size="sm" className="gap-2 bg-blue-600 hover:bg-blue-700">
+            <Button type="button" size="sm" onClick={() => navigate('#dashboard')} className="gap-2 bg-blue-600 hover:bg-blue-700">
               <Zap className="w-4 h-4" />
               Launch App
             </Button>
+            <WalletConnect />
           </div>
 
           {/* Mobile Menu Button */}
@@ -108,22 +124,26 @@ export default function Header() {
         {isMobileMenuOpen && (
           <div className="lg:hidden py-4 border-t border-slate-200 dark:border-slate-700">
             <nav className="flex flex-col gap-4">
-              {navigationItems.map((item) => (
+                {navigationItems.map((item) => (
                 <a
                   key={item.label}
                   href={item.href}
-                  className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium py-2"
-                  onClick={() => setIsMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    e.preventDefault()
+                    setIsMobileMenuOpen(false)
+                    navigate(item.href)
+                  }}
+                  className="text-slate-700 dark:text-slate-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors font-medium py-2 cursor-pointer"
                 >
                   {item.label}
                 </a>
               ))}
               <div className="flex flex-col gap-2 pt-4 border-t border-slate-200 dark:border-slate-700">
-                <Button variant="outline" size="sm" className="gap-2 w-full justify-start">
+                <Button type="button" variant="outline" size="sm" onClick={() => { setIsMobileMenuOpen(false); navigate('#docs') }} className="gap-2 w-full justify-start">
                   <BookOpen className="w-4 h-4" />
                   Docs
                 </Button>
-                <Button size="sm" className="gap-2 bg-blue-600 hover:bg-blue-700 w-full justify-start">
+                <Button type="button" size="sm" onClick={() => { setIsMobileMenuOpen(false); navigate('#dashboard') }} className="gap-2 bg-blue-600 hover:bg-blue-700 w-full justify-start">
                   <Zap className="w-4 h-4" />
                   Launch App
                 </Button>

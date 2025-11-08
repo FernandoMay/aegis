@@ -1,6 +1,7 @@
-'use client'
+ 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -102,6 +103,15 @@ const steps = [
 export default function HowItWorksSection() {
   const [activeStep, setActiveStep] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
+  const router = useRouter()
+
+  const navigate = (hash: string) => {
+    try {
+      router.push(hash.startsWith('#') ? hash : `#${hash}`)
+    } catch (e) {
+      window.location.hash = hash.startsWith('#') ? hash.substring(1) : hash
+    }
+  }
 
   useEffect(() => {
     setIsVisible(true)
@@ -279,7 +289,7 @@ export default function HowItWorksSection() {
                       ))}
                     </div>
                     
-                    <Button className={`gap-2 ${getColorClasses(steps[activeStep].color).button}`}>
+                    <Button type="button" className={`gap-2 ${getColorClasses(steps[activeStep].color).button}`} onClick={() => navigate('#dashboard')}>
                       Learn More
                       <ArrowRight className="w-4 h-4" />
                     </Button>

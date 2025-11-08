@@ -1,6 +1,7 @@
-'use client'
+ 'use client'
 
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { 
@@ -19,6 +20,7 @@ import {
 export default function HeroSection() {
   const [currentTextIndex, setCurrentTextIndex] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
+  const router = useRouter()
 
   const rotatingTexts = [
     "Maximizing Yield",
@@ -35,6 +37,37 @@ export default function HeroSection() {
 
     return () => clearInterval(interval)
   }, [])
+
+  const handleLaunch = () => {
+    // navigate to dashboard anchor on the page
+    try {
+      router.push('#dashboard')
+    } catch (e) {
+      // fallback to direct navigation
+      window.location.hash = 'dashboard'
+    }
+  }
+
+  const handleWatch = () => {
+    try {
+      router.push('#demo')
+    } catch (e) {
+      window.location.hash = 'demo'
+    }
+  }
+
+  const scrollToHowItWorks = () => {
+    const el = document.getElementById('how-it-works')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    } else {
+      try {
+        router.push('#how-it-works')
+      } catch (e) {
+        window.location.hash = 'how-it-works'
+      }
+    }
+  }
 
   const stats = [
     { value: "$1.25M+", label: "TVL", icon: TrendingUp },
@@ -77,11 +110,9 @@ export default function HeroSection() {
           }`}>
             <Badge variant="secondary" className="bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-200">
               <Star className="w-4 h-4 mr-1" />
-              
+              Early access
             </Badge>
-            <span className="text-sm font-medium">
-
-            </span>
+            <span className="text-sm font-medium">Join the alpha</span>
             <Sparkles className="w-4 h-4" />
           </div>
 
@@ -140,12 +171,12 @@ export default function HeroSection() {
           <div className={`flex flex-col sm:flex-row gap-4 justify-center mb-16 transition-all duration-1000 delay-500 ${
             isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           }`}>
-            <Button size="lg" className="gap-3 bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6 h-auto group">
+            <Button type="button" size="lg" onClick={handleLaunch} className="gap-3 bg-blue-600 hover:bg-blue-700 text-lg px-8 py-6 h-auto group">
               <Zap className="w-5 h-5 group-hover:rotate-12 transition-transform" />
               Launch Dashboard
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button variant="outline" size="lg" className="gap-3 text-lg px-8 py-6 h-auto group">
+            <Button type="button" variant="outline" size="lg" onClick={handleWatch} className="gap-3 text-lg px-8 py-6 h-auto group">
               <Play className="w-5 h-5 group-hover:scale-110 transition-transform" />
               Watch Demo
             </Button>
@@ -172,7 +203,19 @@ export default function HeroSection() {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div
+          onClick={scrollToHowItWorks}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault()
+              scrollToHowItWorks()
+            }
+          }}
+          role="button"
+          tabIndex={0}
+          aria-label="Scroll to how it works"
+          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce cursor-pointer"
+        >
           <ArrowDown className="w-6 h-6 text-slate-400" />
         </div>
       </div>
