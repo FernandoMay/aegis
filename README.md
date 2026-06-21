@@ -1,4 +1,4 @@
-# Aegis: Multi-Chain Public Good Yield Optimizer
+﻿# Aegis: Multi-Chain Public Good Yield Optimizer
 
 ## 🛡️ Project Overview
 
